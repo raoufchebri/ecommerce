@@ -26,6 +26,7 @@ jobs:
           password: ${{ secrets.PGPASSWORD }}
         id: create-branch
   migrate-schema:
+    needs: create-branch
     permissions: write-all
     runs-on: ubuntu-latest
     steps:
