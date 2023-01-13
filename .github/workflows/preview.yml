@@ -45,5 +45,5 @@ jobs:
         uses: thollander/actions-comment-pull-request@v2
         with:
           message: |
-            Neon Branch Host :elephant: : ${{ steps.create-branch.outputs.db_url }}
+            Neon Branch Host :elephant: : ${{ steps.create-branch.outputs.host }}
             Vercel Preview URL :rocket: : ${{ steps.deploy.outputs.preview_url }}
