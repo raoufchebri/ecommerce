@@ -1,0 +1,41 @@
+import { useState } from 'react';
+import { PrismaClient } from '@prisma/client';
+
+export async function getServerSideProps() {
+  const prisma = new PrismaClient();
+  const shoes = await prisma.shoes.findMany();
+  return {
+    props: {
+      data: JSON.parse(JSON.stringify(shoes)),
+    },
+  };
+}
+
+const Home = ({ data }) => {
+  const [shoes, setShoes] = useState(data);
+  console.log(data);
+  return (
+    <div className='p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-5'>
+      {shoes.map((shoe) => (
+        <div className='rounded shadow-lg h-full relative'>
+          <img
+            className='w-full object-center object-cover h-48'
+            src={shoe.image}
+            alt={`${shoe.brand} ${shoe.model}`}
+          />
+          {/* <span class='absolute top-4 right-4 bg-purple-500 text-white text-xl font-medium mr-2 px-4 py-0.5 rounded-full'>
+            79$
+          </span> */}
+          <div className='px-6 py-4 min-h-[120px]'>
+            <div className='font-bold text-md mb-2'>
+              {shoe.brand} {shoe.model}
+            </div>
+            <p className='text-gray-700 text-base'>{shoe.description}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default Home;
