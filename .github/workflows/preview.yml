@@ -4,7 +4,7 @@ env:
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 on: [pull_request]
 jobs:
-  e2e:
+  deploy-preview:
     runs-on: ubuntu-latest
     steps:
       - name: Get PR number
