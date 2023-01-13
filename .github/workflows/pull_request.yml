@@ -34,8 +34,7 @@ jobs:
         with:
           db_url: ${{ steps.create-branch.outputs.db_url}}
           host: ${{ steps.create-branch.outputs.host }}
-        secrets:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          vercel_token: ${{ secrets.VERCEL_TOKEN }}
   # deploy:
   # - name: Checkout code
   #   uses: actions/checkout@v2
