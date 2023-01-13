@@ -24,6 +24,7 @@ jobs:
           password: ${{ secrets.PGPASSWORD }}
         id: create-branch
   migrate-schema:
+    needs: create-branch
     permissions: write-all
     runs-on: ubuntu-latest
     steps:
@@ -32,7 +33,6 @@ jobs:
         with:
           db_url: ${{ steps.create-branch.outputs.db_url}}
           host: ${{ steps.create-branch.outputs.host }}
-        secrets:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
   # deploy:
   # - name: Checkout code
