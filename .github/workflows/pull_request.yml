@@ -8,6 +8,8 @@ jobs:
     permissions: write-all
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
       - name: Get PR number
         id: get_pull_number
         run: |
@@ -28,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Migrate and Deploy
-        uses: raoufchebro/ecommerce/.github/actions/migrate_and_deploy.yml@main
+        uses: raoufchebri/ecommerce/.github/actions/migrate_and_deploy.yml@main
         with:
           db_url: ${{ steps.create-branch.outputs.db_url}}
           host: ${{ steps.create-branch.outputs.host }}
