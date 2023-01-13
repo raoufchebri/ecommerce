@@ -14,7 +14,7 @@ jobs:
       - name: Search branch by name
         id: get_branch_id
         run: |
-          id=$(curl --silent \
+          branch_id=$(curl --silent \
             "https://console.neon.tech/api/v2/projects/${PROJECT_ID}/branches" \
             --header "Accept: application/json" \
             --header "Content-Type: application/json" \
@@ -24,14 +24,14 @@ jobs:
             | jq -r \
             ) \
             
-          echo $id
+          echo "branch_id=${branch_id}" >> $GITHUB_OUTPUT
         env:
           PROJECT_ID: ${{ secrets.NEON_PROJECT_ID }}
           API_KEY: ${{ secrets.NEON_API_KEY }}
           SHA: f9fb21ffdb736eaa7ffe4c446f3e1ca857d921a6
           # SHA: ${{ steps.get_sha.outputs.sha }}
       - run: |
-          echo ${{ steps.get_branch_id.outputs.id }}
+          echo ${{ steps.get_branch_id.outputs.branch_id }}
 
 #       - name: Delete Neon Branch
 #         uses: neondatabase/delete-branch-action@v2
