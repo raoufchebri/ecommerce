@@ -8,8 +8,6 @@ jobs:
     permissions: write-all
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
       - name: Get PR number
         id: get_pull_number
         run: |
@@ -30,6 +28,8 @@ jobs:
     permissions: write-all
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
       - name: Migrate and Deploy
         uses: raoufchebri/ecommerce/.github/actions/migrate_and_deploy.yml@main
         with:
