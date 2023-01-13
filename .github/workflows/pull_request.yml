@@ -25,14 +25,6 @@ jobs:
         id: create-branch
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Migrate and Deploy
-        uses: raoufchebri/ecommerce/.github/actions/migrate_and_deploy.yml@main
-        with:
-          db_url: ${{ steps.create-branch.outputs.db_url}}
-          host: ${{ steps.create-branch.outputs.host }}
-          vercel_token: ${{ secrets.VERCEL_TOKEN }}
-      - name: Checkout code
-        uses: actions/checkout@v2
       - name: Run Prisma Migrate
         run: |
           touch .env
