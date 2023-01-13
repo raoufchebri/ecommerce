@@ -18,4 +18,5 @@ model shoes {
   description String
   color String
   image String
+  // price Int
 }
