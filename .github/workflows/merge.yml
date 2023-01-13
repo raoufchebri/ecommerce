@@ -20,7 +20,7 @@ jobs:
             --header "Content-Type: application/json" \
             --header "Authorization: Bearer ${API_KEY}" \
             | jq -r .branches \
-            | jq -c '.[] | select(.name | contains("main")) .id' \
+            | jq -c '.[] | select(.name | contains("'${SHA}'")) .id' \
             | jq -r \
             ) \
             
@@ -28,7 +28,8 @@ jobs:
         env:
           PROJECT_ID: ${{ secrets.NEON_PROJECT_ID }}
           API_KEY: ${{ secrets.NEON_API_KEY }}
-          SHA: ${{ steps.get_sha.outputs.sha }}
+          SHA: f9fb21ffdb736eaa7ffe4c446f3e1ca857d921a6
+          # SHA: ${{ steps.get_sha.outputs.sha }}
       - run: |
           echo ${{ steps.get_branch_id.outputs.id }}
 
