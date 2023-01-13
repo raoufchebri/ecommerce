@@ -31,8 +31,8 @@ jobs:
           echo SHADOW_DATABASE_URL=${SHADOW_DATABASE_URL} >> .env
           npx prisma migrate dev
         env:
-          DATABASE_URL: ${{ steps.create-branch.outputs.db_url}}/main
-          SHADOW_DATABASE_URL: ${{ steps.create-branch.outputs.db_url}}/shadow
+          DATABASE_URL: ${{ steps.create-branch.outputs.db_url}}/neondb
+          SHADOW_DATABASE_URL: ${{ steps.create-branch.outputs.db_url}}/shadowdb
       - name: Deploy to Vercel
         id: deploy
         run: |
