@@ -23,11 +23,6 @@ jobs:
           username: ${{ secrets.PGUSERNAME }}
           password: ${{ secrets.PGPASSWORD }}
         id: create-branch
-  migrate-schema:
-    needs: create-branch
-    permissions: write-all
-    runs-on: ubuntu-latest
-    steps:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Migrate and Deploy
@@ -36,29 +31,28 @@ jobs:
           db_url: ${{ steps.create-branch.outputs.db_url}}
           host: ${{ steps.create-branch.outputs.host }}
           vercel_token: ${{ secrets.VERCEL_TOKEN }}
-  # deploy:
-  # - name: Checkout code
-  #   uses: actions/checkout@v2
-  # - name: Run Prisma Migrate
-  #   run: |
-  #     touch .env
-  #     echo DATABASE_URL=${DATABASE_URL} >> .env
-  #     echo SHADOW_DATABASE_URL=${SHADOW_DATABASE_URL} >> .env
-  #     npx prisma migrate dev
-  #   env:
-  #     DATABASE_URL: ${{ steps.create-branch.outputs.db_url}}/neondb
-  #     SHADOW_DATABASE_URL: ${{ steps.create-branch.outputs.db_url}}/shadowdb
-  # - name: Deploy to Vercel
-  #   id: deploy
-  #   run: |
-  #     npm install --global vercel@latest
-  #     vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-  #     vercel build --token=${{ secrets.VERCEL_TOKEN }}
-  #     preview_url=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})
-  #     echo "preview_url=${preview_url}" >> $GITHUB_OUTPUT
-  # - name: Comment PR
-  #   uses: thollander/actions-comment-pull-request@v2
-  #   with:
-  #     message: |
-  #       Neon Branch Host :elephant: : ${{ steps.create-branch.outputs.host }}
-  #       Vercel Preview URL :rocket: : ${{ steps.deploy.outputs.preview_url }}
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Run Prisma Migrate
+        run: |
+          touch .env
+          echo DATABASE_URL=${DATABASE_URL} >> .env
+          echo SHADOW_DATABASE_URL=${SHADOW_DATABASE_URL} >> .env
+          npx prisma migrate dev
+        env:
+          DATABASE_URL: ${{ steps.create-branch.outputs.db_url}}/neondb
+          SHADOW_DATABASE_URL: ${{ steps.create-branch.outputs.db_url}}/shadowdb
+      - name: Deploy to Vercel
+        id: deploy
+        run: |
+          npm install --global vercel@latest
+          vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+          vercel build --token=${{ secrets.VERCEL_TOKEN }}
+          preview_url=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})
+          echo "preview_url=${preview_url}" >> $GITHUB_OUTPUT
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            Neon Branch Host :elephant: : ${{ steps.create-branch.outputs.host }}
+            Vercel Preview URL :rocket: : ${{ steps.deploy.outputs.preview_url }}
