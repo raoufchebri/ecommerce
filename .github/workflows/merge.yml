@@ -14,7 +14,7 @@ jobs:
       - name: Search branch by name
         id: get_branch_id
         run: |
-          echo "id=$(curl --silent \
+          id=$(curl --silent \
             "https://console.neon.tech/api/v2/projects/${PROJECT_ID}/branches" \
             --header "Accept: application/json" \
             --header "Content-Type: application/json" \
@@ -22,7 +22,9 @@ jobs:
             | jq -r .branches \
             | jq -c '.[] | select(.name | contains("main")) .id' \
             | jq -r \
-            )" >> GITHUB_OUTPUT
+            ) \
+            
+          echo $id
         env:
           PROJECT_ID: ${{ secrets.NEON_PROJECT_ID }}
           API_KEY: ${{ secrets.NEON_API_KEY }}
